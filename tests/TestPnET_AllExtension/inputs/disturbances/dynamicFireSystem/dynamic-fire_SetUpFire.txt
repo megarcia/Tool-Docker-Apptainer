@@ -1,6 +1,6 @@
 LandisData  "Dynamic Fire System"
 
-Timestep  10
+Timestep  5
 
 Species_CSV_File ./inputs/disturbances/dynamicFireSystem/DynamicFire_Spp_Table.csv
 

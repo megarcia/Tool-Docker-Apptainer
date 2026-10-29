@@ -2,7 +2,7 @@ LandisData  "Dynamic Fuel System"
 
 >> Note:  All inputs are provided as examples only.  They are not intended to serve as default values.
 
-Timestep  10
+Timestep  5
 
 >> 		 Fuel 
 >> Species 	 Coefficient 

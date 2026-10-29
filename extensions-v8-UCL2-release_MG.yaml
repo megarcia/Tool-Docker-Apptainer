@@ -1,0 +1,205 @@
+##  TODO:
+##  - "Extension-Output-Wildlife-Habitat" needs UCLv2 update
+##  - "Extension-Local-Habitat-Suitability-Output" needs UCLv2 update
+##  - "Extension-Land-Use-Plus" needs UCLv2 update (in progress upstream; #59)
+##  - "Extension-SOSIEL-Harvest" needs UCLv2 update (in the UCLv1 v8 image)
+##
+##  - (BFOLDS Fire)[https://www.fire-regime-model.com/] not yet ready for v8
+##  - "Extension-Biomass-Browse" not yet ready for v8
+##  - "Extension-DGS-Succession" not yet ready for v8 (requires additional libs)
+##  - "Extension-Root-Rot" not yet ready for v8
+##  - "Extension-Output-Landscape-Habitat" not yet ready for v8
+##
+
+## Succession Extensions
+## Climate v6 extensions: NECN, PnET, Biomass Succession, Climate BDA, and Social Climate Fire
+## must all be on the same Climate library version. Each version keeps its own climate data,
+## so an extension on v5 next to a succession extension on v6 reads climate that was never
+## loaded (e.g., SCF fails with `Value cannot be null` in `Climate.FutureCalendarYear`; #73).
+# - repo: Extension-Biomass-Succession
+#   org: LANDIS-II-Foundation
+#   commit: 68b2569752034e22ae6e4d30111c7ead0cb502c5 ## master (Climate v6)
+
+# - repo: Extension-DGS-Succession
+#   org: LANDIS-II-Foundation
+#   commit: dde267702c587c10d04951f4c4ea754ebeb67bfa ## v8 branch
+
+# - repo: Extension-ForCS-Succession
+#   org: LANDIS-II-Foundation
+#   commit: e21cda25aefb0bc7fed52e053cdcf02d9c45b83c ## partial-mortality fix (ForCS#11)
+
+## v8.3.1: Climate v6, plus NECN's side of the partial cohort mortality fix (#73).
+# - repo: Extension-NECN-Succession
+#   org: LANDIS-II-Foundation
+#   commit: 8ed5e107882ec17c4928100a2d5a8e66041eb9b0
+
+## MG's ongoing quest to restore a connection between PnET and the Universal Cohorts Library
+- repo: Extension-PnET-Succession
+  org: megarcia
+  commit: 7e832d2f0def792e658871eeb53a22b44e944cae  ## megarcia: main branch, v6.1.2
+##  commit: e1303672e98996bcfd8a72b76ab27238dc3507f0  ## megarcia: dev branch
+
+## Disturbance and Other Extensions
+# - repo: Extension-Base-BDA
+#   org: LANDIS-II-Foundation
+  ## master (v5.2, Climate v6). Contains 273e938, the stale-branch UCLv2 update
+  ## pinned here before #73.
+#   commit: 542d2017053f9d5d1291141382c322f2488de32a
+
+# - repo: Extension-Base-Fire
+#   org: LANDIS-II-Foundation
+#   commit: c1ede6a5297e84f34086f380921c648017541cfe
+
+# - repo: Extension-Base-Wind
+#   org: LANDIS-II-Foundation
+#   commit: b313779eb7b7c7d7175321413220e601ff683b01
+
+- repo: Extension-Biomass-Harvest
+  org: LANDIS-II-Foundation
+  commit: 4dfa0d6b1cd07fafd7900aa763621d5130395f8f
+
+# - repo: Extension-Biomass-Hurricane
+#   org: LANDIS-II-Foundation
+#   commit: bef44491f37ffd6950d26bf9d1425db509e974fe
+
+- repo: Extension-Dynamic-Biomass-Fuels
+  org: LANDIS-II-Foundation
+  commit: 4e3e2f1225b3c72ddaff345932ce3e3b96bd039d
+##  org: megarcia
+##  commit: 989c3a10389669b08b3a127d0c8a44566d096ff5
+
+- repo: Extension-Dynamic-Fire-System
+  org: LANDIS-II-Foundation
+  commit: 63d38a7a2b7b5da73eaf7ca448edc44afd774cc4
+##  org: megarcia
+##  commit: f4be961170e294910497c3faf95db03c9f5222fa
+
+## Extension-Land-Use-Plus: excluded -- upstream UCLv2 migration is unfinished.
+## master HEAD (cea58ef, the latest commit, itself a mid-migration "still won't
+## compile" state) fails CS0012: its use of Planting.SpeciesList needs
+## Succession-v9, but land-use.csproj references Succession-v10 while the image's
+## harvest libs (BiomassHarvest-v4 / SiteHarvest-v3) are built against v9. No
+## branch or fork is further along. Re-enable once upstream completes the UCLv2
+## update (see #59).
+# - repo: Extension-Land-Use-Plus
+#   org: LANDIS-II-Foundation
+#   commit: cea58ef6b94a4261dcc6f1b6074e7e130d0198a9
+
+## FOR-CAST fork: upstream `UCL_update` (93db01a, "UCL update to ReduceOrKillMarkedCohort()
+## function", 2026-07-15) plus a HintPath fix: its .csproj names UniversalCohorts-v2 but hinted
+## the v1 DLL, so it compiled against v1 and failed (CS0535/CS0539). Switch to upstream once
+## LANDIS-II-Foundation/Extension-LinearWind#7 merges, and to `master` once `UCL_update` does.
+# - repo: Extension-LinearWind
+#   org: FOR-CAST
+#   commit: 72819ee2019f0ce5e396e261acdd6ab13026edff
+
+## Upstream absorbed the UCLv2 migration (`Update UCL and Rebuild`, 2026-06-06) and has
+## since released v4.3, so the jameslamping fork this used to pin (v4.0.4, never merged
+## upstream) is no longer needed. Note upstream master now references
+## UniversalCohorts-v2, so this pin is NOT usable by the UCLv1 `extensions-v8-release.yaml`.
+##
+## KNOWN LIMITATION -- only usable with NECN and PnET succession, NOT ForCS or Biomass
+## Succession, which crash at extension load with a NullReferenceException:
+##
+##   at Landis.Extension.SocialClimateFire.SiteVars.InitializeDisturbances()
+##        in src/SiteVars.cs:line 109
+##   at Landis.Extension.SocialClimateFire.PlugIn.LoadParameters(String, ICore)
+##
+## `InitializeDisturbances()` looks up `Succession.FineFuels`; when that is unregistered
+## it falls back to `Succession.Litter` but assigns into `SiteVars.FineFuels[site]`, whose
+## getter returns the same field it just found null (and which is never allocated with
+## `NewSiteVar<double>()`) -- so the fallback dereferences null. NECN registers
+## `Succession.FineFuels` directly and PnET registers it via `Library-PnET-Cohort`, so both
+## take the working branch; ForCS and Biomass Succession register only `Succession.Litter`.
+##
+## This is NOT a UCLv2 issue -- it reproduces on the UCLv1 pin used by the v8 image, and is
+## still present on upstream master as of v4.3 (the 2026-07-20 fineFuels refactor renamed
+## the fields but left the same null target). Verified by building this image against both
+## pins and running all four succession extensions. See the test READMEs.
+##
+## master after SCF#177: v4.3 with the Climate reference moved to v6 and the committed
+## UniversalCohorts-v2 1.3 DLL removed from src/lib. No source changes from v4.3.
+# - repo: Extension-Social-Climate-Fire
+#   org: LANDIS-II-Foundation
+#   commit: dea0e9cfc8a889b49b57091a49e5d68d3dc4f7ba ## v4.3 + Climate v6
+
+# - repo: LANDIS-II-Forest-Roads-Simulation-extension
+#   org: Klemet
+  ## Cleaned-up commit: SDK-style .csproj using Landis.Library.UniversalCohorts-v2
+  ## (harvest libs via build/extensions, patched by update_csproj_*.sh), plus
+  ## CopyLocalLockFileAssemblies=true so NuGet DLLs (incl. Supercluster.KDTree)
+  ## are copied to build/extensions for runtime loading. Its support-library
+  ## references are Private=false with lib/ kept out of the project items, so its
+  ## build no longer replaces newer libraries in build/extensions (repo issue #4), and PR #5
+  ## drops ignoreversion from its installer's shared libraries (2.1.1 prep).
+#   commit: fa1af334d06bdea1d09b977d93cf0633d54d1601
+
+# - repo: LANDIS-II-Magic-Harvest
+#   org: Klemet
+  ## Cleaned-up commit: SDK-style .csproj referencing BiomassHarvest-v7 /
+  ## HarvestManagement-v5 / SiteHarvest-v3 (patched by update_csproj_*.sh), plus
+  ## CopyLocalLockFileAssemblies=true so NuGet DLLs (incl. log4net) are copied
+  ## to build/extensions for runtime loading. Its harvest references are
+  ## Private=false with lib/ kept out of the project items, so its build no longer
+  ## replaces Biomass Harvest in build/extensions (repo issue #2), and its
+  ## installer likewise drops ignoreversion on shared libraries.
+#   commit: 4685b7f8376dfb7d0cfcef107ec6cca506e721b6
+
+## Output Extensions
+# - repo: Extension-Output-Biomass
+#   org: LANDIS-II-Foundation
+#   commit: c7a4e952a28b09f85dec57898612508cae047283
+
+# - repo: Extension-Output-Biomass-By-Age
+#   org: LANDIS-II-Foundation
+#   commit: 12ed13f407d79d0a1d9344b1fc2be9caa324b165
+
+# - repo: Extension-Output-Biomass-Community
+#   org: LANDIS-II-Foundation
+#   commit: 1a95db2ae250566260f23439fbe79b7bb0b3141a
+
+# - repo: Extension-Output-Biomass-PnET
+#   org: LANDIS-II-Foundation
+#   commit: a9ed74f0ba62b1e7a5bcad4c01d829a626227ead
+
+# - repo: Extension-Output-Biomass-Reclass
+#   org: LANDIS-II-Foundation
+#   commit: 93e0a49e2c20de7b725e57f63c3ce69e3468eaa9
+
+# - repo: Extension-Output-Cohort-Statistics
+#   org: LANDIS-II-Foundation
+#   commit: b8c4334ddafefc6efefe1526000363a7f2d3d278
+
+# - repo: Extension-Output-Max-Species-Age
+#   org: LANDIS-II-Foundation
+#   commit: a144b8b563950cc2964c039e20b7c3ecb67619ff
+
+# - repo: Extension-Output-Wildlife-Habitat
+#   org: LANDIS-II-Foundation
+#   commit: d5004e3aec2981124d180cc47b72cf636218f388
+
+# - repo: Extension-Local-Habitat-Suitability-Output
+#   org: LANDIS-II-Foundation
+#   commit: 82d58f26da4b66ef1117b7f350d5ec9f5410776f
+
+## Tools: stand-alone programs, not plug-ins, so never registered (`type: tool`;
+## built in their own pass of `scripts/install_extensions_v8.sh`)
+
+## Forest Product Sector Module (FPSM): a stand-alone post-processor of ForC
+## Succession's flux logs (`log_FluxBio.csv`, `log_FluxDOM.csv`), run after a
+## simulation as `dotnet $LANDIS_FPS <input file>`, and built in the tool pass
+## after the console rebuild (see the UCL2 Dockerfile). It references no cohort
+## library, so it could also be built for the UCLv1 image.
+# - repo: Extension-Forest-Product-Sector
+#   org: FOR-CAST
+#   type: tool
+  ## Temporary pin to the FOR-CAST fork; revert to LANDIS-II-Foundation once
+  ## upstream PRs #8 and #9 merge.
+  ## Branch: FOR-CAST/fix/domtofps-allocation (upstream PR #9, "Allocate DOMtoFPS by
+  ## its own proportions, not the snag proportions"), stacked on
+  ## FOR-CAST/fix/fatal-unmatched-allocation (upstream PR #8, 54d1daf9, "Fail when
+  ## harvested carbon has no forest-to-mills proportions"). Both branch from upstream
+  ## main 0fbf9ee6 (merge of #10), which includes the NuGet.config from #1 that
+  ## declares the MyGet feed Landis.Core is restored from.
+  ## Replace the SHA below if the branch moves.
+#   commit: 574f5636e74468fb1ed9a88d9070ae57f18bc9b5

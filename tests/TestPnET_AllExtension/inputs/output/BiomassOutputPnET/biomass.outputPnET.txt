@@ -23,7 +23,7 @@ MonthlyGrossPsn output/MonthlyGrossPsn/MonthlyGrossPsn-{timestep}.img
 MonthlyNetPsn output/MonthlyNetPsn/MonthlyNetPsn-{timestep}.img
 MonthlyMaintResp output/MonthlyMaintResp/MonthlyMaintResp-{timestep}.img
 WoodyDebris output/WoodyDebris/WoodyDebris-{timestep}.img
-SubCanopyPAR output/SubCanopyPAR/SubCanopyPAR-{timestep}.img
+SubcanopyPAR output/SubcanopyPAR/SubcanopyPAR-{timestep}.img
 Water output/Water/Water-{timestep}.img
 CohortBalance output/CohortBalance.csv
 EstablishmentTable output/EstablishmentTable.csv
