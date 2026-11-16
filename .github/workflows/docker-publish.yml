@@ -8,7 +8,7 @@ on:
     ## build/rebuild on 1st/15th day of month at 09:40
     ## NOTE: GitHub disables scheduled builds if no repo activity for 60 days;
     ##       to re-enable, edit the cron schedule values.
-    - cron: '40 9 1,15 * *'
+    ## - cron: '40 9 1,15 * *'
   push:
     branches: [ "main" ]
 
