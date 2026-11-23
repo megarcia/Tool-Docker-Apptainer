@@ -5,5 +5,5 @@ LandisData  EcoregionParameters
 
 EcoregionParameters	 RootingDepth	SoilType  LeakageFrac  PrecLossFrac  SnowSublimFrac  ClimateFileName
 
-eco0	1000	SAND	1	0	0.15	./inputs/core/climate.txt
-eco1	1000	SAND	1	0	0.15	./inputs/core/climate.txt
+eco0	1000	SILO	0.2	0	0.15	./inputs/succession/Climate_monthly_1500-2300.txt
+eco1	1000	SILO	0.2	0	0.15	./inputs/succession/Climate_monthly_1500-2300.txt

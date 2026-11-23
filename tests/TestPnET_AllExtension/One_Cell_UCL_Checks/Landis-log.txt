@@ -1,0 +1,62 @@
+2026-11-10 18:09:43,930 - LANDIS-II 8.0 (8)
+2026-11-10 18:09:43,935 - 
+2026-11-10 18:09:43,987 - Loading scenario from file "scenario-merge-bin20.txt" ...
+2026-11-10 18:09:44,031 - Initialized random number generator with user-supplied seed = 1,111
+2026-11-10 18:09:44,031 - Loading species data from file "species.txt" ...
+2026-11-10 18:09:44,038 - Loading ecoregions from file "ecoregions.txt" ...
+2026-11-10 18:09:44,052 - Core metadata:
+2026-11-10 18:09:44,052 - LANDIS-II v8.0, Seed: 1111, ecoregions.asc, ecoregions.txt, species.txt
+Succession:
+PnET-Succession Version: 6.1.2, Input: pnetsuccession-apart-bin20.txt
+Disturbance Extensions:
+Other Extensions:
+Output Biomass Community Version: 3.1, Input: output-community.txt
+
+2026-11-10 18:09:44,053 - Initializing landscape from ecoregions map "ecoregions.asc" ...
+2026-11-10 18:09:44,066 - Cell length = 30 m, cell area = 0.09 ha
+2026-11-10 18:09:44,068 - Map dimensions: 1 row by 1 column = 1 cell
+2026-11-10 18:09:44,075 - Sites: 1 active (100.0 %), 0 inactive (0.0 %)
+2026-11-10 18:09:44,080 - Loading PnET-Succession extension ...
+2026-11-10 18:09:44,125 - Initializing PnET-Succession version 6.1.3.0
+2026-11-10 18:09:44,143 -    Registering Data:  Succession.WoodyDebris.
+2026-11-10 18:09:44,143 -    Registering Data:  Succession.Litter.
+2026-11-10 18:09:44,143 -    Registering Data:  Succession.FineFuels.
+2026-11-10 18:09:44,144 -    Registering Data:  Succession.PressureHead.
+2026-11-10 18:09:44,144 -    Registering Data:  Succession.ExtremeMinTemp.
+2026-11-10 18:09:44,144 -    Registering Data:  Succession.PET.
+2026-11-10 18:09:44,144 -    Registering Data:  Succession.CWD.
+2026-11-10 18:09:44,145 -    Registering Data:  Succession.SmolderConsumption.
+2026-11-10 18:09:44,145 -    Registering Data:  Succession.FlamingConsumption.
+2026-11-10 18:09:44,145 -    Registering Data:  Succession.MonthlyPressureHead.
+2026-11-10 18:09:44,146 -    Registering Data:  Succession.MonthlySoilTemp.
+2026-11-10 18:09:44,146 -    Registering Data:  Succession.SoilFieldCapacity.
+2026-11-10 18:09:44,147 -    Succession timestep = 10; CohortBinSize = 20.
+2026-11-10 18:09:44,147 -    MaxParallelThreads = 1.
+2026-11-10 18:09:44,147 -    No ClimateConfigFile provided. Using climate files in ecoregion parameters: EcoregionParameters.txt.
+2026-11-10 18:09:44,162 - Eco	Soiltype	WiltPnt		FieldCap	FC-WP		Porosity
+2026-11-10 18:09:44,163 - eco1	SAND		0.039998654	0.097845525	0.05784687	0.45445505
+2026-11-10 18:09:44,169 - Using PAR units of umol/m2/s.
+2026-11-10 18:09:44,172 -    Registering Data:  TimeOfLastSuccession.
+2026-11-10 18:09:44,173 -    Registering Data:  Shade.
+2026-11-10 18:09:44,174 -    Creating Dispersal Neighborhood List.
+2026-11-10 18:09:44,174 -    Dispersal:  NeighborRadius=3015, CellLength=30, numCellRadius=100
+2026-11-10 18:09:44,180 - Spinning up biomass or reading from maps...
+2026-11-10 18:09:44,182 -    Loading initial communities from file initial-communities-apart.csv ...
+2026-11-10 18:09:44,202 -    Reading initial communities map initial-communities.asc ...
+2026-11-10 18:09:44,405 -    Registering Data:  Succession.UniversalCohorts.
+2026-11-10 18:09:44,405 -    Registering Data:  Succession.CohortsPnET.
+2026-11-10 18:09:44,407 - Loading Output Biomass Community extension ...
+2026-11-10 18:09:44,416 - Using the following extensions ...
+   Extension Name            Extension Filename       
+   --------------            ------------------       
+   PnET-Succession           pnetsuccession-apart-bin20.txt
+   Output Biomass Community  output-community.txt     
+
+2026-11-10 18:09:44,416 - Running Output Biomass Community ...
+2026-11-10 18:09:44,418 -    Opening community csv file "community-input-file-0.csv" ...
+2026-11-10 18:09:44,423 -    Writing community biomass map to output-community-0.tif ...
+2026-11-10 18:09:44,436 - Current time: 10
+2026-11-10 18:09:44,436 - Running PnET-Succession ...
+2026-11-10 18:09:44,523 - Running Output Biomass Community ...
+2026-11-10 18:09:44,524 -    Opening community csv file "community-input-file-10.csv" ...
+2026-11-10 18:09:44,525 - Model run is complete.

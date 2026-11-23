@@ -117,6 +117,17 @@ COPY support-libraries-v8-UCL2-release.yaml $LANDIS_DIR/support-libraries-v8-UCL
 
 RUN scripts/install_support_libraries_v8.sh support-libraries-v8-UCL2-release.yaml $LANDIS_DIR
 
+## build the libraries the extensions must compile against
+##
+##  - each replaces its Support-Library-Dlls-v8 copy in `build/extensions`, so it has to
+##    run after the step above and before the extensions are built;
+##  - currently `Landis.Library.PnETCohorts-v2` 2.4.2, which PnET-Succession 6.1.3 needs;
+##    see `libraries-v8-UCL2-release-prebuild.yaml`.
+
+COPY libraries-v8-UCL2-release-prebuild.yaml $LANDIS_DIR/libraries-v8-UCL2-release-prebuild.yaml
+
+RUN scripts/install_libraries_v8.sh libraries-v8-UCL2-release-prebuild.yaml $LANDIS_DIR
+
 ## get, build, and register all available extensions
 ##
 ##  - necessary files are downloaded and built using `scripts/install_extensions_v8.sh`;
@@ -124,11 +135,11 @@ RUN scripts/install_support_libraries_v8.sh support-libraries-v8-UCL2-release.ya
 ##  - it uses sparse checkout of specific directories to avoid downloading the entire repo;
 ##  - it cleans up afterwards, removing the extension source files to save space in the image;
 ##  - `EXT_DROP_SHADOWING_DLLS=true` makes it delete an extension's committed copy of any
-##    DLL already in `build/extensions` before building it. Otherwise the
-##    `Landis.Library.UniversalCohorts-v2.dll` 1.3.0.0 that Social Climate Fire, Forest
-##    Roads and Output Biomass PnET commit replaces the Support-Library-Dlls-v8 copy, and
-##    Magic Harvest's committed `Landis.Extension.BiomassHarvest-v7.dll` replaces the
-##    Biomass Harvest build;
+##    DLL already in `build/extensions` before building it. Otherwise Magic Harvest's
+##    committed `Landis.Extension.BiomassHarvest-v7.dll` replaces the Biomass Harvest
+##    build. Output Biomass PnET's committed `Landis.Library.UniversalCohorts-v2.dll`
+##    now matches the Support-Library-Dlls-v8 copy, but would replace a newer one (earlier
+##    pins of it, Social Climate Fire and Forest Roads committed the faulty 1.3.0.0);
 ##  - entries marked `type: tool` are skipped here and built after the console
 ##    rebuild (see below);
 
@@ -203,10 +214,27 @@ WORKDIR $TESTS_DIR/TestNECN_AllExtension
 RUN dotnet $LANDIS_CONSOLE scenario_UCLv2.txt
 
 ## PnET Succession + Output Biomass PnET, alongside the disturbance/output extensions
-## this image ships. This also exercises the prebuilt `Landis.Library.PnETCohorts-v2`.
+## this image ships. This also exercises `Landis.Library.PnETCohorts-v2` built in the
+## prebuild pass above.
 WORKDIR $TESTS_DIR/TestPnET_AllExtension
 
 RUN dotnet $LANDIS_CONSOLE scenario_UCLv2.txt
+
+## PnET cohort-removal regression check: Biomass Harvest clear-cuts every stand (all 259 active
+## cells) at year 10, so at year 20 no cohort may be older than 20 years. With PnETCohorts-v2
+## 2.3.0.0 and PnET-Succession before 6.1.2, harvest removed cohorts from a copy that PnET
+## rebuilt from its own cohorts every timestep, so the initial cohorts came back (aged 30-100).
+## The first check makes sure the clear-cut happened, so the second one tests something.
+RUN rm -f community-input-file-*.csv \
+ && dotnet $LANDIS_CONSOLE scenario_UCLv2_harvest-check.txt
+
+RUN [ -s community-input-file-20.csv ] || { echo "FAIL: no year-20 community output"; exit 1; }; \
+    N=$(awk -F, '{sub(/\r$/, "")} NR==1{for (i = 1; i <= NF; i++) {if ($i == "Time") t = i; if ($i == "TotalCohortsCompleteHarvest") c = i}; next} $t == 10 {n += $c} END {print n + 0}' \
+      output/harvestCheck/biomass-harvest-summary-log.csv); \
+    A20=$(awk -F, 'NR>1{print $3}' community-input-file-20.csv | sort -n | tail -1); \
+    echo "PnET harvest check: cohorts clear-cut at yr10=$N; oldest cohort at yr20=${A20:-none}"; \
+    [ "$N" -gt 0 ] || { echo "FAIL: the year-10 clear-cut removed no cohorts, so this check tests nothing"; exit 1; }; \
+    [ "${A20:-0}" -le 20 ] || { echo "FAIL: cohorts older than the year-10 clear-cut are still in PnET (harvest acted on a copy)"; exit 1; }
 
 WORKDIR $TESTS_DIR/TestForCS_v8
 

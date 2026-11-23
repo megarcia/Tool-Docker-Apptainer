@@ -1,0 +1,2 @@
+Time,ManagementArea,Prescription,Stand,EventID,StandAge,StandRank,NumberOfSites,HarvestedSites,MgBiomassRemoved,MgBioRemovedPerDamagedHa,TotalCohortsPartialHarvest,TotalCohortsCompleteHarvest,CohortsHarvested_querrubr,BiomassHarvestedMg_querrubr,
+10, 1, Half, 1, 1, 70, 70, 1, 1, 0.045, 0.5, 1, 0, 1, 0.04500000178813934, 

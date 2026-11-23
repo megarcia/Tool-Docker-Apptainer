@@ -117,6 +117,16 @@ COPY support-libraries-v8-UCL2-release.yaml $LANDIS_DIR/support-libraries-v8-UCL
 
 RUN scripts/install_support_libraries_v8.sh support-libraries-v8-UCL2-release.yaml $LANDIS_DIR
 
+## recompile some support libraries to resolve library errors
+##
+##  - necessary files are downloaded and built using `scripts/install_libraries_v8.sh`;
+##  - the script parses `libraries-v8-release.yaml` to checkout specific commits;
+##  - it cleans up afterwards, removing the library source files to save space in the image;
+
+COPY libraries-v8-UCL2-release_MG.yaml $LANDIS_DIR/libraries-v8-UCL2-release_MG.yaml
+
+RUN scripts/install_libraries_v8.sh libraries-v8-UCL2-release_MG.yaml $LANDIS_DIR
+
 ## get, build, and register all available extensions
 ##
 ##  - necessary files are downloaded and built using `scripts/install_extensions_v8.sh`;
@@ -141,19 +151,6 @@ RUN scripts/install_extensions_v8.sh extensions-v8-UCL2-release_MG.yaml $LANDIS_
 
 ## DEBUG: extension install and dependencies
 # RUN echo "$(cat $EXT_LOG_FILE)" 1>&2 && exit 1
-
-## recompile some support libraries to resolve library errors
-##
-##  - necessary files are downloaded and built using `scripts/install_libraries_v8.sh`;
-##  - the script parses `libraries-v8-release.yaml` to checkout specific commits;
-##  - it cleans up afterwards, removing the library source files to save space in the image;
-
-COPY libraries-v8-UCL2-release_MG.yaml $LANDIS_DIR/libraries-v8-UCL2-release_MG.yaml
-
-RUN scripts/install_libraries_v8.sh libraries-v8-UCL2-release_MG.yaml $LANDIS_DIR
-
-## DEBUG: library install and dependencies
-# RUN echo "$(cat $LIB_LOG_FILE)" 1>&2 && exit 1
 
 ## recompile console tool to reference extension libraries
 ##

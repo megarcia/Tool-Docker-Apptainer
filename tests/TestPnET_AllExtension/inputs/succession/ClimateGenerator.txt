@@ -1,0 +1,16 @@
+LandisData "Climate Config"				
+		
+ClimateTimeSeries			Daily_SequencedYears
+ClimateFile				./inputs/succession/Climate_data_2000_2051.csv
+
+SpinUpClimateTimeSeries	                Daily_SequencedYears
+SpinUpClimateFile			./inputs/succession/Climate_data_1900_1999.csv
+
+GenerateClimateOutputFiles		no
+UsingFireClimate			yes
+FineFuelMoistureCode			100
+DuffMoistureCode			100
+DroughtCode				100
+FirstDayFire				30
+LastDayFire				320
+

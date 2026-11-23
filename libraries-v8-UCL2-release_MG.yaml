@@ -10,7 +10,7 @@
 
 # - repo: Library-Universal-Cohort
 #   org: LANDIS-II-Foundation
-#   commit: f19b04a6ca8fd6022eaaedf3896a87dd560b3a10
+#   commit: bc5a5a3f5412ef640330b19d8c602976015919c5
 
 # - repo: Library-Initial-Community
 #   org: LANDIS-II-Foundation
@@ -18,5 +18,5 @@
 
 - repo: Library-PnET-Cohort
   org: megarcia
-  commit: c18d1097a005cbea853cf6e7fc6ed1caad0bcf97  ## megarcia: main branch, v2.4.1
+  commit: b45008f52a3092d3a3ae55e8dda6df3d5a3d475a  ## megarcia: main branch, v2.4.2
 ##  commit: adcd481bbbd77abbd050faf85f5f50907d807026  ## megarcia: dev branch

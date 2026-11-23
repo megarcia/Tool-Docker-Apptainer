@@ -39,7 +39,8 @@ docker run --rm `
 ## Included extensions
 
 See [`extensions-v8-UCL2-release.yaml`](../extensions-v8-UCL2-release.yaml),
-[`support-libraries-v8-UCL2-release.yaml`](../support-libraries-v8-UCL2-release.yaml), and
+[`support-libraries-v8-UCL2-release.yaml`](../support-libraries-v8-UCL2-release.yaml),
+[`libraries-v8-UCL2-release-prebuild.yaml`](../libraries-v8-UCL2-release-prebuild.yaml), and
 [`libraries-v8-release.yaml`](../libraries-v8-release.yaml) for the exact commit SHAs used.
 
 **Succession**
@@ -119,7 +120,7 @@ This image builds on `Docker-LANDIS-II-v8-release` with the following addition:
   DLL that `build/extensions` already holds (`EXT_DROP_SHADOWING_DLLS` in the Dockerfile),
   so the image ships the support libraries and extensions pinned in the `*.yaml` files.
   Without this, the `Landis.Library.UniversalCohorts-v2.dll` 1.3.0.0 that three
-  extensions commit replaces the 2.0.1 copy from `Support-Library-Dlls-v8`; in 1.3.0.0,
+  extensions commit replaces the 2.0.2 copy from `Support-Library-Dlls-v8`; in 1.3.0.0,
   partial cohort removals (e.g. Biomass Harvest `(30%)`) remove nothing;
 
 All other enhancements from `Docker-LANDIS-II-v8-release` also apply:
